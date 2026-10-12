@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fade & Co. Barbershop</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;800;900&family=Manrope:wght@400;500;600;700&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+<style>
+/* Layout: full-bleed hero with a type that literally fades out, then a ruled price list, split about, three quotes, closing booking band. */
+:root {
+  --bg: #0e0e0f;
+  --surface: #161617;
+  --line: #2a2a2c;
+  --fg: #f1efea;
+  --muted: #9a9892;
+  --accent: #f2a900;
+  --accent-ink: #141006;
+  --display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+  --body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg); color: var(--fg);
+  font: 400 1rem/1.65 var(--body);
+  padding-inline: 1.25rem; margin: 0;
+}
+.wrap { max-width: 68rem; margin-inline: auto; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+nav { display: flex; justify-content: space-between; align-items: center; padding-block: 1.25rem; gap: 1rem; }
+.logo { font: 800 1.5rem/1 var(--display); letter-spacing: .08em; text-transform: uppercase; text-decoration: none; }
+.logo b { color: var(--accent); font-weight: 800; }
+nav ul { display: flex; gap: 1.75rem; list-style: none; margin: 0; padding: 0; }
+nav ul a { text-decoration: none; color: var(--muted); font-size: .9rem; font-weight: 600; }
+nav ul a:hover { color: var(--fg); }
+@media (max-width: 40rem) { nav ul { display: none; } }
+
+.btn {
+  display: inline-block; background: var(--accent); color: var(--accent-ink);
+  font: 700 .95rem/1 var(--body); letter-spacing: .04em; text-transform: uppercase;
+  padding: 1rem 1.6rem; border-radius: 2px; text-decoration: none; border: 0;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.btn:hover { transform: translateY(-2px); box-shadow: 0 6px 0 #8a6200; }
+.btn.small { padding: .7rem 1.1rem; font-size: .8rem; }
+
+.hero { padding-block: clamp(3rem, 9vw, 7rem) clamp(3rem, 7vw, 5rem); position: relative; }
+.eyebrow { font: 500 .78rem/1 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--accent); margin: 0 0 1.5rem; }
+.hero h1 {
+  font: 900 clamp(4.5rem, 21vw, 15rem)/.82 var(--display);
+  text-transform: uppercase; margin: 0; letter-spacing: -.01em;
+  background: linear-gradient(180deg, var(--fg) 0%, var(--fg) 45%, rgba(241,239,234,.05) 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+.hero h1 span { -webkit-text-fill-color: var(--accent); }
+.hero .tag { font: 700 clamp(1.4rem, 4vw, 2.2rem)/1.15 var(--display); text-transform: uppercase; letter-spacing: .04em; margin: 2rem 0 .75rem; text-wrap: balance; }
+.hero p.lede { color: var(--muted); max-width: 34rem; margin: 0 0 2rem; }
+.hero .actions { display: flex; flex-wrap: wrap; gap: 1.25rem; align-items: center; }
+.hero .actions small { font: 500 .8rem var(--mono); color: var(--muted); letter-spacing: .06em; }
+.pole { position: absolute; right: 0; top: clamp(3rem, 9vw, 7rem); width: 14px; height: 9rem; border-radius: 7px;
+  background: repeating-linear-gradient(135deg, var(--accent) 0 12px, var(--fg) 12px 24px, #3b6fd1 24px 36px, var(--fg) 36px 48px); opacity: .9; }
+@media (max-width: 40rem) { .pole { display: none; } }
+
+section { padding-block: clamp(3.5rem, 8vw, 6rem); border-top: 1px solid var(--line); }
+h2 { font: 800 clamp(2.4rem, 6vw, 4rem)/.95 var(--display); text-transform: uppercase; margin: 0 0 2.5rem; letter-spacing: .01em; text-wrap: balance; }
+h2 em { font-style: normal; color: var(--accent); }
+
+.menu { list-style: none; margin: 0; padding: 0; }
+.menu li { display: grid; grid-template-columns: 1fr auto; gap: .25rem 1.5rem; padding-block: 1.4rem; border-bottom: 1px solid var(--line); align-items: baseline; }
+.menu li:first-child { border-top: 1px solid var(--line); }
+.menu h3 { font: 700 1.6rem/1 var(--display); text-transform: uppercase; letter-spacing: .04em; margin: 0; }
+.menu .price { font: 800 2rem/1 var(--display); color: var(--accent); }
+.menu p { grid-column: 1; margin: 0; color: var(--muted); font-size: .95rem; max-width: 36rem; }
+.menu .time { grid-column: 2; font: 500 .75rem var(--mono); color: var(--muted); text-align: right; letter-spacing: .06em; }
+
+.about { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(2rem, 6vw, 5rem); align-items: start; }
+.about > * { min-width: 0; }
+.about p { color: #cfcdc6; margin: 0 0 1.1rem; max-width: 34rem; }
+.facts { display: grid; gap: 0; border: 1px solid var(--line); background: var(--surface); }
+.facts div { display: flex; justify-content: space-between; gap: 1rem; padding: 1rem 1.25rem; border-bottom: 1px solid var(--line); font-size: .95rem; }
+.facts div:last-child { border-bottom: 0; }
+.facts dt { color: var(--muted); }
+.facts dd { margin: 0; font-weight: 600; text-align: right; }
+.facts dl { margin: 0; }
+@media (max-width: 48rem) { .about { grid-template-columns: 1fr; } }
+
+.quotes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
+.quotes blockquote { margin: 0; padding: 1.75rem; background: var(--surface); border: 1px solid var(--line); display: flex; flex-direction: column; gap: 1.25rem; min-width: 0; }
+.quotes p { margin: 0; font-size: 1.05rem; line-height: 1.55; }
+.quotes footer { margin-top: auto; font: 500 .78rem var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.quotes footer b { color: var(--accent); font-weight: 500; }
+.stars { color: var(--accent); letter-spacing: .2em; font-size: .9rem; }
+@media (max-width: 56rem) { .quotes { grid-template-columns: 1fr; } }
+
+.book { background: var(--accent); color: var(--accent-ink); margin-inline: -1.25rem; padding-inline: 1.25rem; border-top: 0; text-align: left; }
+.book .wrap { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 2rem; }
+.book h2 { margin: 0; font-size: clamp(3rem, 9vw, 7rem); }
+.book p { margin: 1rem 0 0; font-weight: 600; max-width: 26rem; }
+.book .btn { background: var(--accent-ink); color: var(--accent); }
+.book .btn:hover { box-shadow: 0 6px 0 rgba(0,0,0,.35); }
+.book .num { font: 500 .85rem var(--mono); margin-top: 1rem; letter-spacing: .06em; }
+
+footer.site { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 1rem; padding-block: 2rem; color: var(--muted); font-size: .85rem; }
+
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .btn { transition: none; } }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <nav>
+    <a class="logo" href="#top">Fade <b>&amp;</b> Co.</a>
+    <ul>
+      <li><a href="#services">Services</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+    </ul>
+    <a class="btn small" href="#book">Book now</a>
+  </nav>
+
+  <header class="hero" id="top">
+    <div class="pole" aria-hidden="true"></div>
+    <p class="eyebrow">Straight razors · Sharp fades · Est. 2014</p>
+    <h1>Fade<span>&amp;</span>Co.</h1>
+    <p class="tag">Clean lines. Zero rush. Walk out sharper.</p>
+    <p class="lede">Four chairs, six barbers, and a standing rule: nobody leaves until the line-up is perfect.</p>
+    <div class="actions">
+      <a class="btn" href="#book">Book your chair</a>
+      <small>Tue–Sat · 9AM–7PM</small>
+    </div>
+  </header>
+
+  <section id="services">
+    <h2>The <em>menu</em></h2>
+    <ul class="menu">
+      <li><h3>Signature Skin Fade</h3><span class="price">$38</span><p>Foil-shaved blend from skin to length, finished with a hot-towel neck clean-up.</p><span class="time">45 MIN</span></li>
+      <li><h3>Classic Cut</h3><span class="price">$32</span><p>Scissor and clipper work, shampoo, and a styled finish.</p><span class="time">35 MIN</span></li>
+      <li><h3>Beard Sculpt</h3><span class="price">$22</span><p>Shape, trim, and line-up with a hot towel and beard oil.</p><span class="time">25 MIN</span></li>
+      <li><h3>Hot Towel Shave</h3><span class="price">$35</span><p>Straight razor, warm lather, two towels, and a cooling balm.</p><span class="time">30 MIN</span></li>
+      <li><h3>The Full Works</h3><span class="price">$65</span><p>Skin fade, beard sculpt, and hot towel shave in one sitting. Saves $30.</p><span class="time">90 MIN</span></li>
+      <li><h3>Kids Cut (under 12)</h3><span class="price">$24</span><p>Patient hands, a booster seat, and a lollipop on the way out.</p><span class="time">25 MIN</span></li>
+    </ul>
+  </section>
+
+  <section id="about">
+    <div class="about">
+      <div>
+        <h2>Cut by <em>craft</em>, not by clock</h2>
+        <p>Fade &amp; Co. opened in 2014 above a tailor's shop on Marlow Street with two chairs and one idea: a haircut should take as long as it takes.</p>
+        <p>Our barbers train for two years before they take a walk-in. We cut every guard from #0 to #8, keep the razors honed on leather, and know most of our regulars by name and by head shape.</p>
+        <p>Grab a coffee, pick a record, and take the chair.</p>
+      </div>
+      <dl class="facts">
+        <div><dt>Address</dt><dd>212 Marlow Street</dd></div>
+        <div><dt>Chairs</dt><dd>4 + a waiting bench</dd></div>
+        <div><dt>Tue – Fri</dt><dd>9AM – 7PM</dd></div>
+        <div><dt>Saturday</dt><dd>8AM – 5PM</dd></div>
+        <div><dt>Sun – Mon</dt><dd>Closed</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <section id="reviews">
+    <h2>Word from the <em>chair</em></h2>
+    <div class="quotes">
+      <blockquote>
+        <span class="stars" aria-label="5 out of 5 stars">★★★★★</span>
+        <p>Best skin fade I've had in ten years. Marcus took his time on the blend and I got compliments all week.</p>
+        <footer><b>Daniel R.</b> · Regular since 2019</footer>
+      </blockquote>
+      <blockquote>
+        <span class="stars" aria-label="5 out of 5 stars">★★★★★</span>
+        <p>The hot towel shave is worth the trip alone. Calm shop, great music, and no feeling of being hurried.</p>
+        <footer><b>Priya S.</b> · Beard Sculpt + Shave</footer>
+      </blockquote>
+      <blockquote>
+        <span class="stars" aria-label="5 out of 5 stars">★★★★★</span>
+        <p>I bring my son every third Saturday. He asks for his "Fade &amp; Co. haircut" and sits still the whole time.</p>
+        <footer><b>Tom A.</b> · Kids Cut</footer>
+      </blockquote>
+    </div>
+  </section>
+
+  <div style="height:1px"></div>
+</div>
+
+<section class="book" id="book">
+  <div class="wrap">
+    <div>
+      <h2>Your chair<br>is waiting</h2>
+      <p>Pick a barber and a time that suits you. Walk-ins are welcome when a chair is free.</p>
+      <div class="num">CALL (555) 014-2290</div>
+    </div>
+    <a class="btn" href="#book">Book your chair</a>
+  </div>
+</section>
+
+<div class="wrap">
+  <footer class="site">
+    <span>© 2026 Fade &amp; Co. Barbershop</span>
+    <span>212 Marlow Street · Tue–Sat</span>
+  </footer>
+</div>
+</body>
+</html>
